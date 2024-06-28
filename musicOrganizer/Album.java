@@ -27,6 +27,7 @@ public class Album
      */
     public Album()
     {
+        assert repOK() : "Estado inválido al inicio del constructor";
         pistas = new ArrayList<Pista>();
         artista = "desconocido";               
     }
@@ -36,6 +37,7 @@ public class Album
      */
     public Album(String artista)
     {
+        assert repOK() : "Estado inválido al inicio del constructor";
         if (artista == null || artista.length() == 0) {
             throw new IllegalArgumentException("artista inválido");
         }
@@ -60,6 +62,7 @@ public class Album
             artista = pista.obtenerArtista();
         }
         pistas.add(pista);
+        assert repOK() : "Estado inválido al final de método";
     }
     
     
@@ -87,6 +90,7 @@ public class Album
             */
             titulos[i++] = varPista.obtenerTitulo(); //el i que rellena el alegro aumenta en uno por cada asignacion
         }
+        assert repOK() : "Estado inválido al final de método";
         return titulos;
     }
     
@@ -117,6 +121,7 @@ public class Album
                 return true; //si es igual retorno true
             }
         }
+        assert repOK() : "Estado inválido al final de método";
         return false;
     }
     
@@ -137,7 +142,8 @@ public class Album
             if (currTitulo.equals(titulo)){ //lo comparo con el que pasa el ususario
                 pistas.remove(i); //si es igual elimino esa pista
             }
-        }
+        } 
+        assert repOK() : "Estado inválido al final de método";
     }
     
     /**
@@ -146,7 +152,19 @@ public class Album
      * artista al artista del album
      */
     public boolean repOK() {
-        //TODO implementar este método 
-        return false;
-    }
+        if (pistas == null){
+            return false; 
+        }
+        if (artista == null || artista.trim().isEmpty()){
+            return false;
+        } 
+        // Verifica que todas las pistas tengan por artista al artista del álbum
+        for (Pista pista : pistas) {
+            if (!pista.obtenerArtista().equals(artista)) {
+                return false;
+            }
+        }
+        return true;
+        }
 }
+
