@@ -41,7 +41,10 @@ public class Subasta
      */
     public void agregarOferta(Oferta oferta)
     {
-        //TODO: implementar chequeo de precondición
+        if (oferta == null || oferta.obtenerOferente().trim().isEmpty() || 
+        oferta.obtenerMonto() < montoMinimo) {
+        throw new IllegalArgumentException("la oferta que se desea agregar es invalida");
+        }
         ofertas.add(oferta);
     }
     
@@ -61,8 +64,18 @@ public class Subasta
      */
     public int[] obtenerMontosOfertas()
     {
-        //método no implementado (no requerido)
-        return null;
+        int[] montos = new int [ofertas.size()];/*creo un arreglo de enteros, y 
+        *como tamaño del arreglo pongo el tamaño del arraylis, es decir el campo
+        */
+        int indice = 0;
+        while(indice < ofertas.size()){
+            montos[indice] = ofertas.get(indice).obtenerMonto();/*itero sobre cada 
+            *elemento del arraylist y obtengo su monto que es un valor int y 
+            *lo asigno en el arreglo de enteros
+            */
+            indice++;
+        }
+        return montos;
     }
     
     /**
@@ -99,9 +112,24 @@ public class Subasta
      */
     public Oferta ofertaGanadora()
     {
-        //TODO: implementar funcionalidad de este método
-        return null;
-    }
+        if (ofertas.isEmpty()) { //verifica si ofertas esta vacio
+        throw new IllegalStateException("No hay ofertas disponibles para calcular la oferta ganadora");
+        }
+        Oferta ofertaGanadora = ofertas.get(0); //inicializo la oferta ganadora en la primera oferta
+        int montoMaximo = ofertas.get(0).obtenerMonto(); //extraigo el monto de la primer oferta
+        for(int i = 1 ; i < ofertas.size() ; i++){ 
+            Oferta ofertaActual = ofertas.get(i); /*itero sobre las demas ofertas, 1 en adelante 
+            *y lo guardo en una var ofertaActual
+            */
+           int montoActual = ofertas.get(i).obtenerMonto();//extraigo el monto
+                if (montoActual > montoMaximo){ //actualizo la var con el valor maximo iterado
+                    montoMaximo = montoActual;
+                    ofertaGanadora = ofertaActual;
+                }
+            }
+            return ofertaGanadora;
+        }
+    
     
     /**
      * Invariante de clase para Subasta. Chequea que la colección de ofertas no

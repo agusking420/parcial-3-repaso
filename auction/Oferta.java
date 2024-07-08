@@ -28,9 +28,15 @@ public class Oferta
      */
     public Oferta(String oferente, int monto)
     {
-        //TODO: implementar chequeo de precondición
+        if (oferente == null || oferente.trim().isEmpty()){
+            throw new IllegalArgumentException("el oferente es invalido");
+        }
+        if (monto <= 0){
+            throw new IllegalArgumentException("el monto minimo es 1");
+        }
         this.nombre = oferente;
         this.monto = monto;
+        assert repOK():"el constructor creo objetos invalidos";
     }
     
     
@@ -70,7 +76,12 @@ public class Oferta
      * positivo
      */
     public boolean repOK() {
-        //TODO: implementar funcionalidad de este método
-        return false;
+        if (nombre == null || nombre.trim().isEmpty()){
+            return false;
+        }
+        if (monto <= 0){
+            return false;
+        }        
+        return true;
     }
 }
