@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * Un album de música consta de pistas, con todas las pistas
  * correspondiendo a un mismo artista.
  * 
- * @author N. Aguirre
- * @version 0.1
+ * @author R. Morosi
+ * @version 0.2
  */
 public class Album
 {

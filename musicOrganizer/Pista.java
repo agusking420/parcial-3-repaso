@@ -4,8 +4,8 @@ package musicOrganizer;
  * Almacena los detalles de una pista de música, 
  * en particular artista y título.
  * 
- * @author N. Aguirre
- * @version 0.1
+ * @author R. Morosi
+ * @version 0.2
  */
 public class Pista
 {
@@ -108,7 +108,12 @@ public class Pista
      * Chequea que tanto titulo como artista no sean null ni vacías.
      */
     public boolean repOK() {
-        //No implementado (no requerido)
-        return false;
+        if(titulo==null || titulo.trim().isEmpty()){
+            return false;
+        }
+        if(artista==null || artista.trim().isEmpty()){
+            return false;
+        }
+        return true;
     }
 }

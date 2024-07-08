@@ -28,6 +28,7 @@ public class Subasta
      */
     public Subasta(int montoMinimo)
     {
+        assert repOK() : "invariante invalida";
         if (montoMinimo <= 0)
             throw new IllegalArgumentException("Monto mínimo inválido");
         ofertas = new ArrayList<Oferta>();
@@ -41,6 +42,7 @@ public class Subasta
      */
     public void agregarOferta(Oferta oferta)
     {
+        assert repOK() : "invariante invalida";
         if (oferta == null || oferta.obtenerOferente().trim().isEmpty() || 
         oferta.obtenerMonto() < montoMinimo) {
         throw new IllegalArgumentException("la oferta que se desea agregar es invalida");
@@ -64,6 +66,7 @@ public class Subasta
      */
     public int[] obtenerMontosOfertas()
     {
+        assert repOK() : "invariante invalida";
         int[] montos = new int [ofertas.size()];/*creo un arreglo de enteros, y 
         *como tamaño del arreglo pongo el tamaño del arraylis, es decir el campo
         */
@@ -97,7 +100,16 @@ public class Subasta
      */
     public boolean ofertasMayores(int monto)
     {
-        //método no implementado (no requerido)
+        assert repOK() : "invariante invalida";
+        if (monto < montoMinimo){
+            throw new IllegalArgumentException("monto menor a la oferta minima");
+        }
+        //vamo a usar un foreach
+        for (Oferta currOferta : ofertas){ //declaro una currOferta de tipo Oferta
+            if (currOferta.obtenerMonto() > monto){
+                return true;
+            }
+        }
         return false;
     }
     
@@ -112,8 +124,9 @@ public class Subasta
      */
     public Oferta ofertaGanadora()
     {
+        assert repOK() : "invariante invalida";
         if (ofertas.isEmpty()) { //verifica si ofertas esta vacio
-        throw new IllegalStateException("No hay ofertas disponibles para calcular la oferta ganadora");
+            throw new IllegalStateException("No hay ofertas disponibles para calcular la oferta ganadora");
         }
         Oferta ofertaGanadora = ofertas.get(0); //inicializo la oferta ganadora en la primera oferta
         int montoMaximo = ofertas.get(0).obtenerMonto(); //extraigo el monto de la primer oferta
@@ -126,6 +139,7 @@ public class Subasta
                     montoMaximo = montoActual;
                     ofertaGanadora = ofertaActual;
                 }
+                
             }
             return ofertaGanadora;
         }
@@ -137,7 +151,24 @@ public class Subasta
      * y todos los montos de ofertas son mayores o iguales al monto mínimo.
      */
     public boolean repOK() {
-        //método no implementado (no requerido)
+        if(ofertas == null || ofertas.isEmpty()){
         return false;
+        }
+        if (montoMinimo <= 0){
+            return false;
+        }
+        for(Oferta currOferta :  ofertas){
+            /*
+            *aca abajo llama al repOK de la calse oferta para chequear que las of sean
+            *validas
+            */
+            if (currOferta.repOK() == false){
+                return false;
+            }
+            if (currOferta.obtenerMonto() < montoMinimo) {
+                return false;
+            }
+        }
+        return true;
     }
 }
