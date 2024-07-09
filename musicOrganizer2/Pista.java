@@ -33,10 +33,20 @@ public class Pista
      */
     public Pista(String artista, String titulo, int duracion)
     {
-        //TODO: implementar chequeo de precondición
+        if(artista == null || artista.trim().isEmpty()){
+            throw new IllegalArgumentException("no es un artista valido");
+        }
+        if(titulo == null || titulo.trim().isEmpty()){
+            throw new IllegalArgumentException("no es un titulo valido");
+        }
+        if(duracion <= 0){
+            throw new IllegalArgumentException("no es una duracion valida");
+        }
         this.artista = artista;
         this.titulo = titulo;
         this.duracion = duracion;
+        
+        assert repOK() : "estado de objeto invalido en el constructor pista";
     }
     
     /**
@@ -86,7 +96,15 @@ public class Pista
      * y que duracion sea positivo.
      */
     public boolean repOK() {
-        //TODO: implementar funcionalidad de este método
-        return false;
+        if(artista == null || artista.trim().isEmpty()){
+            return false;    
+        }
+        if(titulo == null || titulo.trim().isEmpty()){
+            return false;
+        }
+        if(duracion <= 0){
+            return false;
+        }
+        return true;
     }
 }

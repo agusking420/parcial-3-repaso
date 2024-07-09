@@ -17,7 +17,7 @@ public class ListaReproduccion
     private ArrayList<Pista> pistas;
     
     /**
-     * Crea una lista de musica vacía
+     * Constructor. Crea una lista de musica vacía
      */
     public ListaReproduccion()
     {
@@ -52,8 +52,14 @@ public class ListaReproduccion
      */
     public String[] obtenerArtistas()
     {
-        //método no implementado (no requerido)
-        return null;
+        //creo el arreglo
+        String artistas[] = new String[pistas.size()];
+        //itero sobre el arratlist y lo guardo en el arreglo
+        for(int i = 0 ; i < pistas.size() ; i++){
+            Pista pistaActual =  pistas.get(i);
+            artistas[i] = pistaActual.obtenerArtista();
+        }
+        return artistas;
     }
     
     /**
@@ -61,7 +67,8 @@ public class ListaReproduccion
      */
     public void imprimirPistas()
     {
-        //TODO: implementar funcionalidad de este método
+        for(Pista indice : pistas)
+        System.out.println(indice);    
     }
     
     /**
@@ -70,9 +77,16 @@ public class ListaReproduccion
      */
     public boolean pertenece(String artista)
     {
-        //TODO: implementar funcionalidad de este método
-        return false;
-    }
+        int indice = 0; 
+        while (indice < pistas.size()){
+            if (artista == pistas.get(indice).obtenerArtista()){
+            return true;
+            }
+        }
+            indice++;
+            return false;
+        }
+    
     
     /**
      * Calcula la duración total de la lista de música.
@@ -80,11 +94,26 @@ public class ListaReproduccion
      * las pistas que la conforman
      * @return duración total de la lista de reproducción
      */
-    public int duracionLista()
-    {
-        //método no implementado (no requerido)
-        return 0;
-    }
+        public int duracionLista()
+        {
+            int duracionTotal = 0;
+            for (Pista pista : pistas) {
+                duracionTotal += pista.obtenerDuracion();
+            }
+            return duracionTotal;
+        }
+        /*
+         * otra forma pero mas dificil de hacerlo:
+         * public int duracionLista()
+         * {
+         *      int duracionTotal = 0;
+         *      for(int i = 0 ; i < pistas.size() ; i++){
+         *      int duracion = pistas.get(i).obtenerDuracion();
+         *      duracionTotal = duracionTotal + duracion;
+         *      }
+         *  return duracionTotal;
+         *}
+         */
     
     /**
      * Invariante de clase para ListaReproduccion. Chequea que la colección de 
@@ -92,7 +121,14 @@ public class ListaReproduccion
      * invariante de pista correspondiente 
      */
     public boolean repOK() {
-        //método no implementado (no requerido)
-        return false;
+        if(pistas == null || pistas.isEmpty()){
+            return false;
+        }
+        for(Pista cancion : pistas){
+            if(cancion.repOK() == false){ //if (!pista.repOK()) tambien puede ser (remplaza todo lo de este renglon)
+            return false;
+            }
+        }
+        return true;
     }
 }
