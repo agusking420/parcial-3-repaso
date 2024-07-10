@@ -29,7 +29,16 @@ public class Subasta
      */
     public Subasta(int montoMinimo)
     {
-        //TODO: implementar este método, incluyendo chequeo de precondición              
+        //como el arraylist se esta creando aca sin ningun dato externo, no va ser 
+        //invalido
+        /*if(ofertas == null || ofertas.isEmpty()){
+            throw new IllegalArgumentException("ofertas no puede estar vacio ni ser nulo");     
+        }*/
+        if(montoMinimo <= 0){
+            throw new IllegalArgumentException("el monto no puede ser menor o igual que 0");
+        }
+        ofertas = new ArrayList<>();
+        this.montoMinimo = montoMinimo;
     }
     
     /**
@@ -64,8 +73,13 @@ public class Subasta
      */
     public int[] obtenerMontosOfertas()
     {
-        //método no implementado (no requerido)
-        return null;
+        int montos[] = new int[ofertas.size()];
+        int i = 0; 
+        while(i < ofertas.size()){
+            montos[i] = ofertas.get(i).obtenerMonto();
+            i++;
+        }
+        return montos;
     }
     
     /**
@@ -87,9 +101,27 @@ public class Subasta
      */
     public boolean ofertasMayores(int monto)
     {
-        //TODO: implementar funcionalidad de este método
+        for(Oferta o : ofertas){
+            if(o.obtenerMonto() > monto){
+             return true;
+            }
+        }
         return false;
     }
+    /*
+     * esta es la forma larga
+     * public boolean ofertasMayores(int monto)
+     *{
+        int ofertaMax = monto;
+        for(Oferta o : ofertas){
+            int currOferta = ofertas.get(0).obtenerMonto();
+            if(currOferta > ofertaMax){
+             return true;
+            }
+        }
+        return false;
+     *}
+     */
     
     /**
      * Calcula la oferta ganadora hasta el momento.
@@ -102,8 +134,17 @@ public class Subasta
      */
     public Oferta ofertaGanadora()
     {
-        //método no implementado (no requerido)
-        return null;
+        Oferta ofertaGanadora = ofertas.get(0);
+        int montoMaximo = ofertaGanadora.obtenerMonto(); 
+        for(int i = 1 ; i < ofertas.size() ; i++){
+            Oferta currOferta = ofertas.get(i);
+            int currMonto = currOferta.obtenerMonto();
+            if(currMonto > montoMaximo){
+                montoMaximo = currMonto;
+                ofertaGanadora = currOferta;
+            }
+        }
+        return ofertaGanadora;
     }
     
     /**
@@ -112,7 +153,20 @@ public class Subasta
      * y todos los montos de ofertas son mayores o iguales al monto mínimo.
      */
     public boolean repOK() {
-        //método no implementado (no requerido)
-        return false;
+        if(ofertas == null || ofertas.isEmpty()){
+            return false;
+        }
+        if(montoMinimo <= 0){
+            return false;
+        }
+        for(Oferta o : ofertas){
+            if(!o.repOK()){
+                return false;
+            }
+            if(o.obtenerMonto() < montoMinimo){
+                return false;
+            }
+        }
+        return true;
     }
 }

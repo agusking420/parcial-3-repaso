@@ -36,6 +36,7 @@ public class Oferta
         }
         this.nombre = oferente;
         this.monto = monto;
+        assert repOK() : "el nombre o el monto son invalidos en el constructor";
     }
     
     
@@ -65,8 +66,8 @@ public class Oferta
      */
     public String toString()
     {
-        //TODO: implementar funcionalidad de este método
-        return null;
+        assert repOK() : "el nombre o el monto son invalidos en toString";
+        return "" + monto + " (por " + nombre + ")";
     }
     
     /**
@@ -75,7 +76,12 @@ public class Oferta
      * positivo
      */
     public boolean repOK() {
-        //TODO: implementar funcionalidad de este método
-        return false;
+        if(nombre == null || nombre.trim().isEmpty()){
+            return false;
+        }
+        if(monto <= 0){
+            return false;
+        }
+        return true;
     }
 }
